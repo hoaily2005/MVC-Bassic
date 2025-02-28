@@ -1,12 +1,35 @@
 <?php
 require_once "view/helpers.php";
-require_once "controller/ProductController.php";
+require_once "model/CategoryModel.php";
+require_once "model/ProductModel.php";
+
 
 class Controller
 {
+    private $categoryModel;
+    private $productModel;
+
+    public function __construct()
+    {
+        $this->categoryModel = new CategoryModel();
+        $this->productModel = new ProductModel();
+    }
     public function index()
     {
-        $productController = new ProductController();
-        $productController->indexHome();
+        $category = $this->categoryModel->getAllcategories();
+        $products = $this->productModel->getAllProducts();
+        
+        renderView('index.php', compact('category', 'products'), 'Home');
+    }
+
+    public function admin()
+    {
+        $category = $this->categoryModel->getAllcategories();
+        $products = $this->productModel->getAllProducts();
+        renderView('admin/index.php', compact(
+            'category',
+            'products'
+         
+        ), 'Admin', 'admin');
     }
 }
