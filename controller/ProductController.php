@@ -1,27 +1,22 @@
 <?php
 
-use Illuminate\Support\Facades\Blade;
 
 require_once "model/ProductModel.php";
 require_once "model/ProductVariantModel.php";
 require_once "view/helpers.php";
 require_once "model/CategoryModel.php";
-require_once "model/RatingModel.php";
-require_once 'core/BladeServiceProvider.php';
 
 class ProductController
 {
     private $productModel;
     private $variantModel;
     private $categoryModel;
-    private $ratingModel;
 
     public function __construct()
     {
         $this->productModel = new ProductModel();
         $this->variantModel = new ProductVariantModel();
         $this->categoryModel = new CategoryModel();
-        $this->ratingModel = new RatingModel();
     }
 
     public function index()
@@ -29,7 +24,7 @@ class ProductController
         $title = "Product List";
         $products = $this->productModel->getAllProducts();
         //compact: gom bien dien thanh array
-        BladeServiceProvider::render("admin/products/index", compact('products', 'title'), 'Product list', 'admin');
+        renderView("admin/products/index.php", compact('products', 'title'), 'Product list', 'admin');
     }
 
     public function index2()
@@ -41,14 +36,14 @@ class ProductController
         $products = $this->productModel->getProductsFitter($categoryId, $priceRange, $sort);
         $categories = $this->categoryModel->getAllCategories();
 
-        BladeServiceProvider::render("product", compact('products', 'categories'));
+        renderView("product.php", compact('products', 'categories'));
     }
 
 
     public function indexHome()
     {
         $products = $this->productModel->getAllProducts();
-        BladeServiceProvider::render("index", compact('products'), "Product List");
+        renderView("index.php", compact('products'), "Product List");
     }
 
     public function show($id)
@@ -61,15 +56,11 @@ class ProductController
         $categoryId = $products['category_id'];
         $relatedProducts = $this->productModel->getProductsByCategory($categoryId);
 
-        $ratings = $this->ratingModel->getRatingsByProduct($id);
-        $averageRating = $this->ratingModel->getAverageRating($id);
 
-        BladeServiceProvider::render("product_detail", compact(
+        renderView("product_detail.php", compact(
             'products',
             'variants',
             'relatedProducts',
-            'ratings',
-            'averageRating',
             'title'
         ), "Chi tiết sản phẩm");
     }
@@ -120,7 +111,7 @@ class ProductController
             ]);
 
             if (!empty($errors)) {
-                BladeServiceProvider::render("admin/products/create", compact('errors', 'name', 'description', 'price', 'quantity', 'imageUrls', 'categories'), "Create Product", 'admin');
+                renderView("admin/products/create.php", compact('errors', 'name', 'description', 'price', 'quantity', 'imageUrls', 'categories'), "Create Product", 'admin');
             } else {
                 $productId = $this->productModel->createProduct($name, $description, $price, $imageUrls[0], $quantity, $category_id);
 
@@ -134,7 +125,7 @@ class ProductController
                 exit;
             }
         } else {
-            BladeServiceProvider::render("admin/products/create", compact('categories'), "Create Product", 'admin');
+            renderView("admin/products/create.php", compact('categories'), "Create Product", 'admin');
         }
     }
 
@@ -181,7 +172,7 @@ class ProductController
             $product = $this->productModel->getProductById($id);
             $categoryModel = new CategoryModel();
             $categories = $categoryModel->getAllCategories();
-            BladeServiceProvider::render("admin/products/edit", compact('product', 'categories'), "Edit Product", 'admin');
+            renderView("admin/products/edit.php", compact('product', 'categories'), "Edit Product", 'admin');
         }
     }
 

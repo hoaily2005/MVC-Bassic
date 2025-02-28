@@ -171,34 +171,6 @@ class ProductModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getBestSellingProducts()
-    {
-        $query = "SELECT p.name, SUM(oi.quantity) AS total_sold, SUM(oi.total_price) AS revenue
-              FROM order_items oi
-              INNER JOIN products_variants pv ON oi.product_variant_id = pv.id
-              INNER JOIN products p ON pv.product_id = p.id
-              GROUP BY p.name
-              ORDER BY total_sold DESC
-              LIMIT 3"; 
 
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getLeastSellingProducts()
-    {
-        $query = "SELECT p.name, SUM(oi.quantity) AS total_sold, SUM(oi.total_price) AS revenue
-              FROM order_items oi
-              INNER JOIN products_variants pv ON oi.product_variant_id = pv.id
-              INNER JOIN products p ON pv.product_id = p.id
-              GROUP BY p.name
-              ORDER BY total_sold ASC
-              LIMIT 3"; 
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
     
 }

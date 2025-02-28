@@ -1,11 +1,11 @@
 DB_HOST=127.0.0.1
-DB_NAME=php2025
+DB_NAME=php22025
 DB_USER=root
 DB_PASS=
 
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
-GOOGLE_REDIRECT_URL=
+GOOGLE_REDIRECT_URL=http://localhost:8000/auth/google-login
 
 # FACEBOOK_APP_ID=
 # FACEBOOK_APP_SECRET=
@@ -19,7 +19,4 @@ MAIL_PASSWORD=
 VNPAY_TMN_CODE=
 VNPAY_HASH_SECRET=
 VNPAY_URL=https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
-VNPAY_RETURN_URL=http://localhost:8000/vnpay/callback
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+VNPAY_RETURN_URL=

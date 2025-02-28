@@ -1,10 +1,8 @@
 <?php
 require_once "model/ProductVariantModel.php";
 require_once "model/ProductModel.php";
-require_once "model/ColorModel.php";
-require_once "model/SizeModel.php";
+
 require_once "view/helpers.php";
-require_once 'core/BladeServiceProvider.php';
 
 class ProductVariantController
 {
@@ -18,8 +16,7 @@ class ProductVariantController
     {
         $this->variantModel = new ProductVariantModel();
         $this->productsModel = new ProductModel();
-        $this->colorsModel = new ColorModel();
-        $this->sizesModel = new SizeModel();
+
     }
 
     // Danh sách tất cả biến thể sản phẩm
